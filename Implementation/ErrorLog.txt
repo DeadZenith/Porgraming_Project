@@ -1,0 +1,3 @@
+[11/20/11 9:12 AM]|Teller|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[11/20/11 9:15 AM]|Teller|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[11/20/11 9:22 AM]|DepositTransaction|Transaction|Error|NOTAG|null<Could not find any accounts for 1>

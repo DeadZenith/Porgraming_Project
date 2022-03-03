@@ -150,34 +150,19 @@ public class BookView extends View
 
 
         // Create a combo box
-        actStatus = new ComboBox()
-        ;
+        actStatus = new ComboBox();
+        actStatus.getItems().addAll(
+                "Active","Inactive"
+        );
         grid.add(actStatus, 1, 4);
-        grid.add(pubLabel, 1, 3);
 
-        Text scLabel = new Text(" Service Charge : ");
-        scLabel.setFont(myFont);
-        scLabel.setWrappingWidth(150);
-        scLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(scLabel, 0, 4);
 
-        serviceCharge = new TextField();
-        serviceCharge.setEditable(true);
-        serviceCharge.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("ServiceCharge", serviceCharge.getText());
-            }
-        });
-        grid.add(serviceCharge, 1, 4);
 
         HBox doneCont = new HBox(10);
-        doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Back");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+        doneCont.setAlignment(Pos.BOTTOM_RIGHT);
+        submitButton = new Button("SUBMIT");
+        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
@@ -185,10 +170,24 @@ public class BookView extends View
                 myModel.stateChangeRequest("AccountCancelled", null);
             }
         });
-        doneCont.getChildren().add(cancelButton);
+        doneCont.getChildren().add(submitButton);
+        HBox soCont = new HBox(10);
+        doneCont.setAlignment(Pos.BOTTOM_LEFT);
+        DoneButton = new Button("Done");
+        DoneButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        DoneButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                clearErrorMessage();
+                myModel.stateChangeRequest("AccountCancelled", null);
+            }
+        });
+        soCont.getChildren().add(DoneButton);
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
+        vbox.getChildren().add(soCont);
 
         return vbox;
     }
@@ -206,10 +205,10 @@ public class BookView extends View
     //-------------------------------------------------------------
     public void populateFields()
     {
-        accountNumber.setText((String)myModel.getState("AccountNumber"));
-        acctType.setText((String)myModel.getState("Type"));
-        balance.setText((String)myModel.getState("Balance"));
-        serviceCharge.setText((String)myModel.getState("ServiceCharge"));
+        authorName.setText((String)myModel.getState("Author Name"));
+        titleField.setText((String)myModel.getState(""));
+        publicationYear.setText((String)myModel.getState("Balance"));
+        actStatus.setValue((String)myModel.getState("Active"));
     }
 
     /**
@@ -223,7 +222,7 @@ public class BookView extends View
         if (key.equals("ServiceCharge") == true)
         {
             String val = (String)value;
-            serviceCharge.setText(val);
+            //serviceCharge.setText(val);
             displayMessage("Service Charge Imposed: $ " + val);
         }
     }

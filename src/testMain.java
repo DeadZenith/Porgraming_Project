@@ -11,7 +11,7 @@ public class testMain {
         Properties prop1 = new Properties();
         //Properties prop2 = new Properties();
         String temp;
-        LibrarianView();
+        //LibrarianView();
         String response;
         do {
             System.out.println("Would You Like to add a (B)ook or (P)");

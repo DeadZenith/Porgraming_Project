@@ -80,7 +80,7 @@ public class BookCollectionView extends View{
             while (entries.hasMoreElements() == true)
             {
                 Book nextBook = (Book)entries.nextElement();
-                System.out.println("Next book for table: " + nextBook);
+                System.out.println("Inserting Nexgt Book: " + nextBook);
                 Vector<String> view = nextBook.getEntryListView();
 
                 // add this list entry to the list
@@ -125,10 +125,10 @@ public class BookCollectionView extends View{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text prompt = new Text("LIST OF BOOKS");
+        Text prompt = new Text("Book List");
         prompt.setWrappingWidth(350);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
+        prompt.setFill(Color.DARKGREEN);
         grid.add(prompt, 0, 0, 2, 1);
 
         tableOfBooks = new TableView<BookTableModel>();
@@ -174,8 +174,6 @@ public class BookCollectionView extends View{
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(115, 150);
         scrollPane.setContent(tableOfBooks);
-
-
 
         //TODO need to look into switching this
         doneButton = new Button("Back");

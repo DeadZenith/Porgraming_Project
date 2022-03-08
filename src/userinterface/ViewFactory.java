@@ -27,10 +27,10 @@ public class ViewFactory {
 //		{
 //			return new PatronCollectionView(model);
 //		}
-//		else if(viewName.equals("SearchBooksView") == true)
-//		{
-//			return new SearchBooksView(model);
-//		}
+		else if(viewName.equals("SearchBooksView") == true)
+		{
+			return new SearchBooksView(model);
+		}
 //		else if(viewName.equals("SearchPatronsView") == true)
 //		{
 //			return new SearchPatronsView(model);

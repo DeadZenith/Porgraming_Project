@@ -51,7 +51,7 @@ public class testMain extends Application
     public void start(Stage primaryStage)
     {
         System.out.println("Library");
-        System.out.println("Copyright 2022 Matt Warren and Kyle Knopp");
+        System.out.println("Copyright Silent Shogun 2022");
 
         // Create the top-level container (main frame) and add contents to it.
         MainStageContainer.setStage(primaryStage, "Library");
@@ -73,7 +73,7 @@ public class testMain extends Application
         catch(Exception exc)
         {
             System.err.println("Could not create Librarian!");
-            new Event(Event.getLeafLevelClassName(this), "Assign2driver.<init>", "Unable to create Librarian object", Event.ERROR);
+            new Event(Event.getLeafLevelClassName(this), "testMain.<init>", "Unable to create Librarian object", Event.ERROR);
             exc.printStackTrace();
         }
 

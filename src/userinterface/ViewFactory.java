@@ -1,4 +1,3 @@
-package userinterface; /**
 package userinterface;
 
 import impresario.IModel;
@@ -8,26 +7,34 @@ public class ViewFactory {
 
 	public static View createView(String viewName, IModel model)
 	{
-		if(viewName.equals("TellerView") == true)
+		if(viewName.equals("LibrarianView") == true)
 		{
-			return new TellerView(model);
+			return new LibrarianView(model);
 		}
-		else if(viewName.equals("TransactionChoiceView") == true)
+		else if(viewName.equals("BookView") == true)
 		{
-			return new TransactionChoiceView(model);
+			return new BookView(model);
 		}
-		else if(viewName.equals("AccountCollectionView") == true)
+		else if(viewName.equals("PatronView") == true)
 		{
-			return new AccountCollectionView(model);
+			return new PatronView(model);
 		}
-		else if(viewName.equals("AccountView") == true)
+		else if(viewName.equals("BookCollectionView") == true)
 		{
-			return new AccountView(model);
+			return new BookCollectionView(model);
 		}
-		else if(viewName.equals("AccountHolderIDEntryView") == true)
-		{
-			return new AccountHolderIDEntryView(model);
-		}
+//		else if(viewName.equals("PatronCollectionView") == true)
+//		{
+//			return new PatronCollectionView(model);
+//		}
+//		else if(viewName.equals("SearchBooksView") == true)
+//		{
+//			return new SearchBooksView(model);
+//		}
+//		else if(viewName.equals("SearchPatronsView") == true)
+//		{
+//			return new SearchPatronsView(model);
+//		}
 		else if(viewName.equals("DepositTransactionView") == true)
 		{
 			return new DepositTransactionView(model);
@@ -79,7 +86,6 @@ public class ViewFactory {
 		else
 			return null;
 	}
-
+	*/
 
 }
-**/

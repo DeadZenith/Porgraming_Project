@@ -1,280 +1,236 @@
+// specify the package
 package userinterface;
 
 // system imports
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.EventObject;
-import java.util.Properties;
+import javafx.event.Event;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 // project imports
 import impresario.IModel;
-import model.Librarian;
 
-/** The class containing the Account View  for the ATM application */
+/** The class containing the Transaction Choice View  for the ATM application */
 //==============================================================
 public class LibrarianView extends View
 {
 
+    // other private data
+    private final int labelWidth = 120;
+    private final int labelHeight = 25;
+
     // GUI components
-    protected JTextField accountNumber;
-    protected JTextField acctType;
-    protected JTextField balance;
-    protected JTextField serviceCharge;
 
-    protected JButton doneButton;
-    protected JButton insertBook;
-    protected JButton insertPatron;
-    protected JButton searchBook;
-    protected JButton searchPatrons;
+    private Button insertBookButton;
+    private Button insertPatronButton;
+    private Button searchBookButton;
+    private Button searchpatronButton;
+    private Button doneButton;
 
 
-    // For showing error message
-    protected MessageView statusLog;
+
+    private MessageView statusLog;
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public LibrarianView(IModel account)
+    public LibrarianView(IModel librarian)
     {
-        super(account, "LibrarianView");
+        super(librarian, "Librarian View");
 
-        // set the layout for this panel
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        // create a container for showing the contents
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(15, 5, 5, 5));
 
-        // create our GUI components, add them to this panel
-        add(createTitle());
-        //add(createDataEntryFields());
-        //add(createNavigationButtons());
+        // Add a title for this panel
+        container.getChildren().add(createTitle());
 
-        // Error message area
-        add(createStatusLog("                                            "));
+        // how do you add white space?
+        container.getChildren().add(new Label(" "));
 
-       // populateFields();
+        // create our GUI components, add them to this Container
+        container.getChildren().add(createFormContents());
 
-        myModel.subscribe("ServiceCharge", this);
-    }
+        container.getChildren().add(createStatusLog("             "));
 
-    // Overide the paint method to ensure we can set the focus when made visible
-    //-------------------------------------------------------------
-    public void paint(Graphics g)
-    {
-        super.paint(g);
-        //bannerID.requestFocusInWindow();
+        getChildren().add(container);
+
+        populateFields();
+
+        myModel.subscribe("TransactionError", this);
     }
 
     // Create the labels and fields
     //-------------------------------------------------------------
-    protected JPanel createTitle()
+    private VBox createTitle()
     {
-        JPanel container = new JPanel();
-        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.add(Box.createRigidArea(new Dimension(250,10)));
+        VBox container = new VBox(10);
+        Text titleText = new Text("       Library System          ");
+        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        titleText.setWrappingWidth(300);
+        titleText.setTextAlignment(TextAlignment.CENTER);
+        titleText.setFill(Color.DARKGREEN);
+        container.getChildren().add(titleText);
 
-        JPanel temp_1 = new JPanel();
-        temp_1.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        JLabel lbl_1 = new JLabel("        Library System       ");
-        Font myFont_1 = new Font("Helvetica", Font.BOLD, 18);
-        lbl_1.setFont(myFont_1);
-        temp_1.add(lbl_1);
-
-        container.add(temp_1);
-        insertBook = new JButton("Insert New Book");
-        insertBook.addActionListener(this);
-        container.add(insertBook);
-        insertPatron = new JButton("Insert New Patron");
-        insertPatron.addActionListener(this);
-        container.add(insertPatron);
-        searchBook = new JButton("Search Books");
-        searchBook.addActionListener(this);
-        container.add(searchBook);
-        searchPatrons = new JButton("Search Patrons");
-        searchPatrons.addActionListener(this);
-        container.add(searchPatrons);
+        /*String accountHolderGreetingName = (String)myModel.getState("Name");
+        Text welcomeText = new Text("Welcome, " + accountHolderGreetingName + "!");
+        welcomeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        welcomeText.setWrappingWidth(300);
+        welcomeText.setTextAlignment(TextAlignment.CENTER);
+        welcomeText.setFill(Color.DARKGREEN);
+        container.getChildren().add(welcomeText);
+        Text inquiryText = new Text("What do you wish to do today?");
+        inquiryText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        inquiryText.setWrappingWidth(300);
+        inquiryText.setTextAlignment(TextAlignment.CENTER);
+        inquiryText.setFill(Color.BLACK);
+        container.getChildren().add(inquiryText);*/
 
         return container;
     }
 
-    // Create the main data entry fields
-    //-------------------------------------------------------------
-//    protected JPanel createDataEntryFields()
-//    {
-//
-//        JPanel temp = new JPanel();
-//        // set the layout for this panel
-//        temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-//
-//        temp.add(Box.createRigidArea(new Dimension(0,20)));
-//
-//        // data entry fields
-//        JPanel temp0 = new JPanel();
-//        temp0.setLayout(new FlowLayout(FlowLayout.LEFT));
-//
-//        JLabel accNumLabel = new JLabel("  Account Number          : ");
-//        Font myFont = new Font("Helvetica", Font.BOLD, 12);
-//        accNumLabel.setFont(myFont);
-//        temp0.add(accNumLabel);
-//
-//        accountNumber = new JTextField(20);
-//        accountNumber.setEditable(false);
-//        temp0.add(accountNumber);
-//
-//        temp.add(temp0);
-//
-//        JPanel temp1 = new JPanel();
-//        temp1.setLayout(new FlowLayout(FlowLayout.LEFT));
-//
-//        JLabel acctTypeLabel = new JLabel("  Account Type               : ");
-//        temp1.add(acctTypeLabel);
-//
-//        acctType = new JTextField(20);
-//        acctType.setEditable(false);
-//        temp1.add(acctType);
-//
-//        temp.add(temp1);
-//
-//        JPanel temp2 = new JPanel();
-//        temp2.setLayout(new FlowLayout(FlowLayout.LEFT));
-//
-//        JLabel balLabel = new JLabel("  Account Balance               : ");
-//        temp2.add(balLabel);
-//
-//        balance = new JTextField(20);
-//        balance.setEditable(false);
-//        temp2.add(balance);
-//
-//        temp.add(temp2);
-//
-//        JPanel temp3 = new JPanel();
-//        temp3.setLayout(new FlowLayout(FlowLayout.LEFT));
-//
-//        JLabel scLabel = new JLabel("  Service Charge         : ");
-//        temp3.add(scLabel);
-//
-//        serviceCharge = new JTextField(20);
-//        serviceCharge.setEditable(true);
-//        serviceCharge.addActionListener(this);
-//        temp3.add(serviceCharge);
-//
-//        temp.add(temp3);
-//
-//        return temp;
-//    }
 
     // Create the navigation buttons
     //-------------------------------------------------------------
-//    protected JPanel createNavigationButtons()
-//    {
-//        JPanel temp = new JPanel();
-//        // set the layout for this panel
-//        temp.setLayout(new BoxLayout(temp, BoxLayout.Y_AXIS));
-//
-//        temp.add(Box.createRigidArea(new Dimension(0,10)));
-//
-//        JPanel temp1 = new JPanel();		// default FlowLayout is fine
-//        FlowLayout f1 = new FlowLayout(FlowLayout.CENTER);
-//        f1.setVgap(1);
-//        f1.setHgap(25);
-//        temp1.setLayout(f1);
-//
-//        // create the buttons, listen for events, add them to the panel
-//
-//        cancelButton = new JButton("Cancel");
-//        cancelButton.addActionListener(this);
-//        temp1.add(cancelButton);
-//
-//        temp.add(temp1);
-//
-//        return temp;
-//    }
+    private VBox createFormContents()
+    {
+
+        VBox container = new VBox(15);
+
+        // create the buttons, listen for events, add them to the container
+        HBox dCont = new HBox(10);
+        dCont.setAlignment(Pos.CENTER);
+        insertBookButton = new Button("Insert New Book");
+        insertBookButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        insertBookButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                myModel.stateChangeRequest("Insert New Book", null);
+            }
+        });
+        dCont.getChildren().add(insertBookButton);
+
+        container.getChildren().add(dCont);
+
+        HBox wCont = new HBox(10);
+        wCont.setAlignment(Pos.CENTER);
+        insertPatronButton = new Button("Insert New Patron");
+        insertPatronButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        insertPatronButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                myModel.stateChangeRequest("Insert Patron", null);
+            }
+        });
+        wCont.getChildren().add(insertPatronButton);
+
+        container.getChildren().add(wCont);
+
+        HBox tCont = new HBox(10);
+        tCont.setAlignment(Pos.CENTER);
+        searchBookButton = new Button("Search Books");
+        searchBookButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        searchBookButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+                myModel.stateChangeRequest("Search Books", null);
+            }
+        });
+        tCont.getChildren().add(searchBookButton);
+
+        container.getChildren().add(tCont);
+
+        HBox biCont = new HBox(10);
+        biCont.setAlignment(Pos.CENTER);
+        searchpatronButton = new Button("Search Patrons");
+        searchpatronButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        searchpatronButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+                myModel.stateChangeRequest("Search Patrons", null);
+            }
+        });
+        biCont.getChildren().add(searchpatronButton);
+
+        container.getChildren().add(biCont);
+
+       /* HBox iscCont = new HBox(10);
+        iscCont.setAlignment(Pos.CENTER);
+        imposeServiceChargeButton = new Button("Impose Service Charge");
+        imposeServiceChargeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        imposeServiceChargeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                myModel.stateChangeRequest("ImposeServiceCharge", null);
+            }
+        });
+        iscCont.getChildren().add(imposeServiceChargeButton);
+        container.getChildren().add(iscCont);*/
+
+        HBox doneCont = new HBox(10);
+        doneCont.setAlignment(Pos.CENTER);
+        doneButton = new Button("Done");
+        doneButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        doneButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+                System.exit(0);
+            }
+        });
+        doneCont.getChildren().add(doneButton);
+
+        container.getChildren().add(doneCont);
+
+        return container;
+    }
 
     // Create the status log field
     //-------------------------------------------------------------
-    protected JPanel createStatusLog(String initialMessage)
+    private MessageView createStatusLog(String initialMessage)
     {
+
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
     //-------------------------------------------------------------
-//    public void populateFields()
-//    {
-//        accountNumber.setText((String)myModel.getState("AccountNumber"));
-//        acctType.setText((String)myModel.getState("Type"));
-//        balance.setText((String)myModel.getState("Balance"));
-//        serviceCharge.setText((String)myModel.getState("ServiceCharge"));
-//    }
-
-    // process events generated from our GUI components
-    //-------------------------------------------------------------
-    public void processAction(EventObject evt)
+    public void populateFields()
     {
 
-        clearErrorMessage();
-
-        if (evt.getSource() == insertBook)
-        {
-            // cancel the deposit
-           // Book.Book();
-            Librarian.createNewBook();
-        }
-        else
-        if (evt.getSource() == serviceCharge)
-        {
-            //
-            processData();
-        }
     }
 
-    /**
-     * Process
-     */
-    //----------------------------------------------------------
-    protected void processData()
-    {
-        myRegistry.updateSubscribers("ServiceCharge", serviceCharge.getText());
-    }
 
-    /**
-     * Process the Cancel button.
-     */
-    //----------------------------------------------------------
-    protected void processCancel()
-    {
-        myRegistry.updateSubscribers("AccountCancelled", null);
-    }
-
-    /**
-     * Update method
-     */
     //---------------------------------------------------------
     public void updateState(String key, Object value)
     {
-        clearErrorMessage();
-
-        if (key.equals("ServiceCharge") == true)
+        if (key.equals("TransactionError") == true)
         {
-            String val = (String)value;
-           // serviceCharge.setText(val);
-            displayMessage("Service Charge Imposed: $ " + val);
+            // display the passed text
+            displayErrorMessage((String)value);
         }
     }
 
@@ -288,15 +244,6 @@ public class LibrarianView extends View
     }
 
     /**
-     * Display info message
-     */
-    //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
-        statusLog.displayMessage(message);
-    }
-
-    /**
      * Clear error message
      */
     //----------------------------------------------------------
@@ -304,9 +251,4 @@ public class LibrarianView extends View
     {
         statusLog.clearErrorMessage();
     }
-
 }
-
-//---------------------------------------------------------------
-//	Revision History:
-//

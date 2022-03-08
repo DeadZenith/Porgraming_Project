@@ -1,57 +1,52 @@
-// specify the package
 package model;
 
-// system imports
-
 import exception.InvalidPrimaryKeyException;
-//import impresario.IView;
+import exception.PasswordMismatchException;
+import impresario.IView;
+import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-//==============================================================
-public class Patron extends EntityBase
-{
+
+
+public class Patron extends EntityBase {
     private static final String myTableName = "Patron";
 
     protected Properties dependencies;
 
-    // GUI Components
+    private String updateStatusMessage = "";
 
-    private String statusState = "";
 
-    // constructor for this class
-    //----------------------------------------------------------
-    public Patron(String patronId)
-            throws InvalidPrimaryKeyException
+    //Constructor for if we know the id number which is a private key so there should only be one unique id of that number
+    public Patron(String id) throws InvalidPrimaryKeyException
     {
         super(myTableName);
+        String query = "SELECT * FROM " + myTableName + " WHERE (patronID = " + id + ")";
 
-        String query = "SELECT * FROM " + myTableName + " WHERE (patronId = " + patronId + ")";
+        Vector allDataRetrieved = getSelectQueryResult(query);
 
-        Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
-
-        // You must get one account at least
-        if (allDataRetrieved != null)
-        {
+        if (allDataRetrieved != null){
             int size = allDataRetrieved.size();
+
+            // There should be EXACTLY one patron. More than that is an error
             if (size != 1)
             {
-                throw new InvalidPrimaryKeyException("we have clones id : "
-                        + patronId + " found.");
+                throw new InvalidPrimaryKeyException("Multiple patrons matching id : "
+                        + id + " found.");
             }
             else
             {
                 // copy all the retrieved data into persistent state
-                Properties retrievedPatronData = allDataRetrieved.elementAt(0);
+                Properties retrievedAccountData = (Properties)allDataRetrieved.elementAt(0);
                 persistentState = new Properties();
 
-                Enumeration allKeys = retrievedPatronData.propertyNames();
+                Enumeration allKeys = retrievedAccountData.propertyNames();
                 while (allKeys.hasMoreElements() == true)
                 {
                     String nextKey = (String)allKeys.nextElement();
-                    String nextValue = retrievedPatronData.getProperty(nextKey);
+                    String nextValue = retrievedAccountData.getProperty(nextKey);
 
                     if (nextValue != null)
                     {
@@ -61,96 +56,116 @@ public class Patron extends EntityBase
 
             }
         }
-        // No matching patron found, throw an exception
+        // If no patron found for this user name, throw an exception
         else
         {
-            throw new InvalidPrimaryKeyException("No matching id : "
-                    + patronId + " found.");
+            throw new InvalidPrimaryKeyException("No patron matching id : "
+                    + id + " found.");
         }
     }
 
-    //----------------------------------------------------------
-    public Patron(Properties patronInfo)
+    //Constructor for it we do not know the specific id number to look up
+    public Patron(Properties props)
     {
         super(myTableName);
 
         persistentState = new Properties();
-        Enumeration allKeys = patronInfo.propertyNames();
-        while (allKeys.hasMoreElements() == true)
+        Enumeration allKeys = props.propertyNames();
+        while(allKeys.hasMoreElements()==true)
         {
             String nextKey = (String)allKeys.nextElement();
-            String nextValue = patronInfo.getProperty(nextKey);
+            String nextValue = props.getProperty(nextKey);
 
-            if (nextValue != null)
+            if(nextValue!=null)
             {
-                persistentState.setProperty(nextKey, nextValue);
+                persistentState.setProperty(nextKey,nextValue);
             }
         }
     }
-    //-----------------------------------------------------------------------------------
+    public Patron(){
 
-    public String toString()
-    {
-        return "Name: " + persistentState.getProperty("name") +  "/n Address: "  + persistentState.getProperty("address")  + "/n City: "  + persistentState.getProperty("City") + "/n State Code: "  +
-                persistentState.getProperty("stateCode") + "/n Zip: "  + persistentState.getProperty("zip") + "/n Email: "  + persistentState.getProperty("email") + "/n DOB: "  + persistentState.getProperty("dateOfBirth") + "/n Status: "  +
-                persistentState.getProperty("status");
+
+        super(myTableName);
+        setDependencies();
+        persistentState = new Properties();
+
     }
-    public void update()
-    {
+
+
+    public void save(){
+        updateStateInDatabase();
+    }
+
+    public void updateStateInDatabase(){
         try
         {
-            if (persistentState.getProperty("patronId") != null)
+            if(persistentState.getProperty("patronID") != null)
             {
                 Properties whereClause = new Properties();
-                whereClause.setProperty("patronId",
-                        persistentState.getProperty("patronId"));
+                whereClause.setProperty("patronID",
+                        persistentState.getProperty("patronID"));
                 updatePersistentState(mySchema, persistentState, whereClause);
-                statusState = "patron data for account number : " + persistentState.getProperty("patronId") + " updated successfully in database!";
+                updateStatusMessage = "Patron data for Patron Id : " + persistentState.getProperty("patronID") + " updated successfully in database!";
             }
             else
             {
-                Integer bookId =
+                Integer patronId =
                         insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("AccountNumber", "" + bookId.intValue());
-                statusState = "Account data for new account : " +  persistentState.getProperty("AccountNumber")
+                persistentState.setProperty("patronID", "" + patronId.intValue());
+                updateStatusMessage = "Patron data for new patron : " +  persistentState.getProperty("patronID")
                         + "installed successfully in database!";
             }
         }
         catch (SQLException ex)
         {
-            statusState = "Error in installing account data in database!";
+            updateStatusMessage = "Error in installing patron data in database!";
+            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
+    private void setDependencies()
+    {
+        dependencies = new Properties();
+        dependencies.setProperty("Update", "UpdateStatusMessage");
+        dependencies.setProperty("ServiceCharge", "UpdateStatusMessage");
+
+        //myRegistry.setDependencies(dependencies);
+    }
+    @Override
+    public String toString() {
+        return "Patron Name: " + persistentState.getProperty("name") + "; Address: " +
+                persistentState.getProperty("address")  + "; City: " +
+                persistentState.getProperty("city") + "; Zip: "+
+                persistentState.getProperty("zip");
+    }
+
+    // compare
+    public void display(){
+        System.out.println(toString());
+    }
+
+
     public static int compare(Patron a, Patron b)
     {
-        String aNum = (String)a.getState("patronId");
-        String bNum = (String)b.getState("patronId");
+        String aNum = (String)a.getState("patronID");
+        String bNum = (String)b.getState("patronID");
 
         return aNum.compareTo(bNum);
     }
-    //-----------------------------------------------------------------------------------
-    @Override
+
     public Object getState(String key) {
-        if (key.equals("status"))
-            return statusState;
-
-        return persistentState.getProperty("status");
+        if (key.equals("UpdateStatusMessage") == true)
+        {
+            return updateStatusMessage;
+        }
+        return persistentState.getProperty(key);
     }
-    //-----------------------------------------------------------------------------------
-    @Override
+
     public void stateChangeRequest(String key, Object value) {
-
+        if (value != null) {
+            persistentState.setProperty(key, (String)value);
+        }
     }
-
-    /** Called via the IView relationship */
-    //----------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
-        stateChangeRequest(key, value);
-    }
-
-
-
     //-----------------------------------------------------------------------------------
     protected void initializeSchema(String tableName)
     {
@@ -159,10 +174,19 @@ public class Patron extends EntityBase
             mySchema = getSchemaInfo(tableName);
         }
     }
+    public Vector<String> getEntryListView()
+    {
+        Vector<String> v = new Vector<String>();
+
+        v.addElement(persistentState.getProperty("patronId"));
+        v.addElement(persistentState.getProperty("name"));
+        v.addElement(persistentState.getProperty("address"));
+        v.addElement(persistentState.getProperty("city"));
+        v.addElement(persistentState.getProperty("stateCode"));
+        v.addElement(persistentState.getProperty("zip"));
+        v.addElement(persistentState.getProperty("dateOfBirth"));
+        v.addElement(persistentState.getProperty("status"));
+
+        return v;
+    }
 }
-
-
-
-
-
-		

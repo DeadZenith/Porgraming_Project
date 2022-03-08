@@ -1,101 +1,98 @@
 package model;
 
-//import impresario.IView;
-
 import java.util.Properties;
 import java.util.Vector;
 
-public class PatronCollection extends EntityBase
-{
-    private static final String myTableName = "Patron";
+public class PatronCollection extends EntityBase{
+    private static final String myTableName="Patron";
+    private Vector<Patron> patrons;
 
-    private Vector<Patron> patronList;
-
-    // constructor for this class
-    //----------------------------------------------------------
-    public PatronCollection() {
+    public PatronCollection()
+    {
         super(myTableName);
-        patronList = new Vector<>(); // new Vector<Patron>();
+        patrons = new Vector<Patron>();
     }
 
-    public Vector findPatronsOlderThan(String date) {
-        String query = "SELECT * FROM " + myTableName + " WHERE (dateOfBirth > " + date + ") ORDER BY name ASC;";
-        return doQuery(query);
-    }
-
-    public Vector findPatronsYoungerThan(String date) {
-        String query = "SELECT * FROM " + myTableName + " WHERE (dateOfBirth < " + date + ") ORDER BY name ASC;";
-        return doQuery(query);
-    }
-
-    public Vector findPatronsAtZipCode(String zip) {
-        String query = "SELECT * FROM " + myTableName + " WHERE (zip=" + zip + ") ORDER BY name ASC;";
-        return doQuery(query);
-    }
-
-    public Vector findPatronsWithNameLike(String name) {
-
-        String query = "SELECT * FROM " + myTableName + " WHERE (name LIKE '%" + name + "%') ORDER BY name ASC;";
-        return doQuery(query);
-    }
-
-    private Vector doQuery(String query) {
-        try {
-            Vector allDataRetrieved = getSelectQueryResult(query);
-            if (allDataRetrieved != null) {
-//                patronList = new Vector<Patron>();
-                for (int index = 0; index < allDataRetrieved.size(); index++) {
-                    Properties data = (Properties) allDataRetrieved.elementAt(index);
-                    Patron patron = new Patron(data);
-                    patronList.add(patron);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
+    public void findPatronsOlderThan(String date) throws Exception{
+        if(date == null){
+            throw new Exception("UNEXPECTED ERROR: date is null");
         }
-        return patronList;
+
+        String query = "SELECT * FROM "+ myTableName+ "WHERE (dateOfBirth > "+date+")";
+
+        queryHelper(query);
     }
-    //----------------------------------------------------------
+    public void findPatronsYoungerThan(String date)throws Exception{
+        if(date == null){
+            throw new Exception("UNEXPECTED ERROR: date is null");
+        }
+
+        String query = "SELECT * FROM "+ myTableName+ "WHERE (dateOfBirth < "+date+")";
+
+        queryHelper(query);
+    }
+    public void findPatronsAtZipCode(String zip)throws Exception{
+        if(zip == null){
+            throw new Exception("UNEXPECTED ERROR: zip is null");
+        }
+
+        String query = "SELECT * FROM "+ myTableName+ "WHERE (zip = "+zip+")";
+
+        queryHelper(query);
+    }
+    public void findPatronsWithNameLike(String name)throws Exception{
+        if(name == null){
+            throw new Exception("UNEXPECTED ERROR: name is null");
+        }
+
+        String query = "SELECT * FROM "+ myTableName+ "WHERE (name LIKE '%"+name+"%')";
+
+        queryHelper(query);
+    }
+
     public void queryHelper(String query) {
-        patronList = new Vector<Patron>();
+        patrons = new Vector();
 
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null) {
-
-
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++) {
-                Properties nextPatron = (Properties) allDataRetrieved.elementAt(cnt);
+                Properties nextPatronData = (Properties) allDataRetrieved.elementAt(cnt);
 
-                Patron pc = new Patron(nextPatron);
+                Patron patron = new Patron(nextPatronData);
 
-                if (pc != null) {
-                    addPatron(pc);
+                if (patrons != null) {
+                    addPatron(patron);
                 }
             }
 
+
         }
     }
-    private void addPatron(Patron p)
+
+    //----------------------------------------------------------------------------------
+    private void addPatron(Patron a)
     {
         //users.add(u);
-        int index = findIndexToAdd(p);
-        patronList.insertElementAt(p, index); // To build up a collection sorted on some key
+        int index = findIndexToAdd(a);
+        patrons.insertElementAt(a,index); // To build up a collection sorted on some key
     }
-    private int findIndexToAdd(Patron p)
+
+    //----------------------------------------------------------------------------------
+    private int findIndexToAdd(Patron a)
     {
         //users.add(u);
         int low=0;
-        int high = patronList.size()-1;
+        int high = patrons.size()-1;
         int middle;
 
         while (low <=high)
         {
             middle = (low+high)/2;
 
-            Patron midSession = patronList.elementAt(middle);
+            Patron midSession = (Patron)patrons.elementAt(middle);
 
-            int result = Patron.compare(p, midSession);
+            int result = Patron.compare(a,midSession);
 
             if (result ==0)
             {
@@ -115,38 +112,24 @@ public class PatronCollection extends EntityBase
         return low;
     }
 
-    //----------------------------------------------------------
-    public Object getState(String key)
-    {
-        if (key.equals("patrons"))
-            return patronList;
-        else
-        if (key.equals("patronList"))
-            return this;
-        return null;
+
+    public Object getState(String key) {
+        if(key.equals("Patrons"));
+        return patrons;
     }
+
+    public void stateChangeRequest(String key, Object value) {
+    }
+
     public void display() {
-        if (patronList != null) {
-            for (int cnt = 0; cnt < patronList.size(); cnt++) {
-                Patron p = patronList.get(cnt);
+        if (patrons != null) {
+            for (int cnt = 0; cnt < patrons.size(); cnt++) {
+                Patron p = patrons.get(cnt);
                 System.out.println("--------");
                 System.out.println(p.toString());
             }
         }
     }
-
-    @Override
-    public void stateChangeRequest(String key, Object value) {
-
-    }
-
-    /** Called via the IView relationship */
-    //----------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
-        stateChangeRequest(key, value);
-    }
-
     //-----------------------------------------------------------------------------------
     protected void initializeSchema(String tableName)
     {

@@ -20,7 +20,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Properties;
+import java.util.Date;
+import java.text.*;
 
 
 // project imports
@@ -28,13 +31,17 @@ import impresario.IModel;
 
 /** The class containing the Account View  for the ATM application */
 //==============================================================
-public class BookView extends View
+public class PatronView extends View
 {
 
     // GUI components
-    protected TextField bookTitle;
-    protected TextField author;
-    protected TextField pubYear;
+    protected TextField patronName;
+    protected TextField address;
+    protected TextField city;
+    protected TextField stateCode;
+    protected TextField zip;
+    protected TextField email;
+    protected TextField dateOfBirth;
     //protected ComboBox<String> comboBox;
 
 
@@ -48,9 +55,9 @@ public class BookView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public BookView(IModel book)
+    public PatronView(IModel patron)
     {
-        super(book, "BookView");
+        super(patron, "PatronView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -102,44 +109,82 @@ public class BookView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text prompt = new Text("BOOK INFORMATION");
+        Text prompt = new Text("PATRON INFORMATION");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
-        Text accNumLabel = new Text(" Book Title : ");
+        Text accNumLabel = new Text(" Patron Name : ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         accNumLabel.setFont(myFont);
         accNumLabel.setWrappingWidth(150);
         accNumLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(accNumLabel, 0, 1);
 
-        bookTitle = new TextField();
-        bookTitle.setEditable(true);
-        grid.add(bookTitle, 1, 1);
+        patronName = new TextField();
+        patronName.setEditable(true);
+        grid.add(patronName, 1, 1);
 
-        Text acctTypeLabel = new Text(" Author : ");
+        Text acctTypeLabel = new Text(" Patron Address : ");
         acctTypeLabel.setFont(myFont);
         acctTypeLabel.setWrappingWidth(150);
         acctTypeLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(acctTypeLabel, 0, 2);
 
-        author = new TextField();
-        author.setEditable(true);
-        grid.add(author, 1, 2);
+        address = new TextField();
+        address.setEditable(true);
+        grid.add(address, 1, 2);
 
-        Text balLabel = new Text(" Published Year : ");
+        Text balLabel = new Text(" Patron city : ");
         balLabel.setFont(myFont);
         balLabel.setWrappingWidth(150);
         balLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(balLabel, 0, 3);
 
-        pubYear = new TextField();
-        pubYear.setEditable(true);
-        grid.add(pubYear, 1, 3);
+        city = new TextField();
+        city.setEditable(true);
+        grid.add(city, 1, 3);
 
+        Text stateLabel = new Text(" Patron State Code : ");
+        stateLabel.setFont(myFont);
+        stateLabel.setWrappingWidth(150);
+        stateLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(stateLabel, 0, 4);
 
+        stateCode = new TextField();
+        stateCode.setEditable(true);
+        grid.add(stateCode, 1, 4);
+
+        Text zipLabel = new Text(" Patron ZIP : ");
+        zipLabel.setFont(myFont);
+        zipLabel.setWrappingWidth(150);
+        zipLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(zipLabel, 0, 5);
+
+        zip = new TextField();
+        zip.setEditable(true);
+        grid.add(zip, 1, 5);
+
+        Text mailLabel = new Text(" Patron Email : ");
+        mailLabel.setFont(myFont);
+        mailLabel.setWrappingWidth(150);
+        mailLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(mailLabel, 0, 6);
+
+        email = new TextField();
+        email.setEditable(true);
+        grid.add(email, 1, 6);
+
+        Text dobLabel = new Text(" Patron DOB : ");
+        dobLabel.setFont(myFont);
+        dobLabel.setWrappingWidth(150);
+        dobLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(dobLabel, 0, 7);
+
+        dateOfBirth = new TextField();
+        dateOfBirth.setEditable(true);
+        grid.add(dateOfBirth, 1, 7);
 
 
         submitButton = new Button("Submit");
@@ -149,7 +194,11 @@ public class BookView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                processBookData();
+                try {
+                    processPatronData();
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
 
 
             }
@@ -191,9 +240,13 @@ public class BookView extends View
     //-------------------------------------------------------------
     public void populateFields()
     {
-        bookTitle.setText((String)myModel.getState("bookTitle"));
-        author.setText((String)myModel.getState("author"));
-        pubYear.setText((String)myModel.getState("pubYear"));
+        patronName.setText((String)myModel.getState("name"));
+        address.setText((String)myModel.getState("address"));
+        city.setText((String)myModel.getState("city"));
+        stateCode.setText((String)myModel.getState("stateCode"));
+        zip.setText((String)myModel.getState("zip"));
+        email.setText((String)myModel.getState("email"));
+        dateOfBirth.setText((String)myModel.getState("dateOfBirth"));
 
     }
 
@@ -243,45 +296,75 @@ public class BookView extends View
     }
 
     //---------------------------------------------------------
-    public void processBookData() {
+    public void processPatronData() throws ParseException{
         // DEBUG: System.out.println("DepositAmountView.processAction()");
 
         clearErrorMessage();
 
-        String bookTitleEntered = bookTitle.getText();
-        String authorEntered = author.getText();
-        String pubYearEntered = pubYear.getText();
+        String nameEntered = patronName.getText();
+        String addressEntered = address.getText();
+        String cityEntered = city.getText();
+        String stateEntered = stateCode.getText();
+        String zipEntered = zip.getText();
+        String emailEntered = email.getText();
+        String dobEntered = dateOfBirth.getText();
 
 
-        if ((bookTitleEntered == null) || (bookTitleEntered.length() == 0)){
-            displayErrorMessage("Please enter a book title to be entered.");
+        if ((nameEntered == null) || (nameEntered.length() == 0)){
+            displayErrorMessage("Please enter a name to be entered.");
         }
         else
-        if ((authorEntered == null) || (authorEntered.length() == 0)){
-            displayErrorMessage("Please enter a author to be entered");
+        if ((addressEntered == null) || (addressEntered.length() == 0)){
+            displayErrorMessage("Please enter an address to be entered");
         }
+        else
+        if ((cityEntered == null) || (cityEntered.length() == 0)){
+            displayErrorMessage("Please enter a city to be entered");
+        }
+        else
+        if ((stateEntered == null) || (stateEntered.length() == 0)){
+            displayErrorMessage("Please enter a state to be entered");
+        }
+        else
+        if ((zipEntered == null) || (zipEntered.length() == 0)){
+            displayErrorMessage("Please enter a zip to be entered");
+        }
+        else
+        if ((emailEntered == null) || (emailEntered.length() == 0)){
+            displayErrorMessage("Please enter a email to be entered");
+        }
+        else
+        if ((dobEntered == null) || (dobEntered.length() == 0)){
+            displayErrorMessage("Please enter a date of birth to be entered");
+        }
+
         else
         {
-            double pYear = Double.parseDouble(pubYearEntered);
-            if((pYear < 1800) || (pYear > 2022)){
-                displayErrorMessage("Please enter publisher year between 1800 and 2022");
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = sdformat.parse(dobEntered);
+            Date d2 = sdformat.parse("1920-01-01");
+            Date d3 = sdformat.parse("2004-01-01");
+
+            if((d1.compareTo(d2) < 0) || (d1.compareTo(d3) > 0)){
+                displayErrorMessage("Please enter publisher year between 1920-01-01 and 2004-01-01");
             }
+
+
             Properties props = new Properties();
-            props.setProperty("bookTitle", bookTitleEntered);
-            props.setProperty("author", authorEntered);
-            props.setProperty("pubYear", pubYearEntered);
+            props.setProperty("name", nameEntered);
+            props.setProperty("address", addressEntered);
+            props.setProperty("city", cityEntered);
+            props.setProperty("stateCode", stateEntered);
+            props.setProperty("zip", zipEntered);
+            props.setProperty("email", emailEntered);
+            props.setProperty("dateOfBirth", dobEntered);
             props.setProperty("status", "Active");
-            myModel.stateChangeRequest("BookData", props);
+            myModel.stateChangeRequest("PatronData", props);
         }
-
-
-
-
     }
 
 
 
 
-
-
 }
+

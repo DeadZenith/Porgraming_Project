@@ -3,12 +3,14 @@ package userinterface;
 
 // system imports
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +37,7 @@ public class BookView extends View
     protected TextField bookTitle;
     protected TextField author;
     protected TextField pubYear;
-    //protected ComboBox<String> comboBox;
+    protected ComboBox<String> comboBox;
 
 
 
@@ -108,36 +110,51 @@ public class BookView extends View
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
-        Text accNumLabel = new Text(" Book Title : ");
+        Text titlLab = new Text(" Title : ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        accNumLabel.setFont(myFont);
-        accNumLabel.setWrappingWidth(150);
-        accNumLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(accNumLabel, 0, 1);
+        titlLab.setFont(myFont);
+        titlLab.setWrappingWidth(150);
+        titlLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(titlLab, 0, 1);
 
         bookTitle = new TextField();
         bookTitle.setEditable(true);
         grid.add(bookTitle, 1, 1);
 
-        Text acctTypeLabel = new Text(" Author : ");
-        acctTypeLabel.setFont(myFont);
-        acctTypeLabel.setWrappingWidth(150);
-        acctTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(acctTypeLabel, 0, 2);
+        Text authLab = new Text(" Author : ");
+        authLab.setFont(myFont);
+        authLab.setWrappingWidth(150);
+        authLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(authLab, 0, 2);
 
         author = new TextField();
         author.setEditable(true);
         grid.add(author, 1, 2);
 
-        Text balLabel = new Text(" Published Year : ");
-        balLabel.setFont(myFont);
-        balLabel.setWrappingWidth(150);
-        balLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(balLabel, 0, 3);
+        Text pubLab = new Text(" Publication Year : ");
+        pubLab.setFont(myFont);
+        pubLab.setWrappingWidth(150);
+        pubLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(pubLab, 0, 3);
 
         pubYear = new TextField();
         pubYear.setEditable(true);
         grid.add(pubYear, 1, 3);
+
+        Text statLab = new Text(" Activity Status : ");
+        statLab.setFont(myFont);
+        statLab.setWrappingWidth(150);
+        statLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(statLab, 0, 4);
+
+        ComboBox<String> comboBox = new ComboBox<String>();
+        //Setting the prompt text of the combo box
+        //Getting the observable list of the combo box
+        ObservableList<String> list = comboBox.getItems();
+        //Adding items to the combo box
+        list.add("Active");
+        list.add("Inactive");
+        grid.add(comboBox, 1, 4);
 
 
 
@@ -194,6 +211,7 @@ public class BookView extends View
         bookTitle.setText((String)myModel.getState("bookTitle"));
         author.setText((String)myModel.getState("author"));
         pubYear.setText((String)myModel.getState("pubYear"));
+
 
     }
 

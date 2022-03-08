@@ -33,9 +33,6 @@ public class SearchBooksView extends View
 
     // GUI components
     protected TextField bookTitle;
-    protected TextField author;
-    protected TextField pubYear;
-    //protected ComboBox<String> comboBox;
 
 
 
@@ -108,7 +105,7 @@ public class SearchBooksView extends View
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
-        Text accNumLabel = new Text(" Book Title : ");
+        Text accNumLabel = new Text(" Book: ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         accNumLabel.setFont(myFont);
         accNumLabel.setWrappingWidth(150);
@@ -118,26 +115,6 @@ public class SearchBooksView extends View
         bookTitle = new TextField();
         bookTitle.setEditable(true);
         grid.add(bookTitle, 1, 1);
-
-        Text acctTypeLabel = new Text(" Author : ");
-        acctTypeLabel.setFont(myFont);
-        acctTypeLabel.setWrappingWidth(150);
-        acctTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(acctTypeLabel, 0, 2);
-
-        author = new TextField();
-        author.setEditable(true);
-        grid.add(author, 1, 2);
-
-        Text balLabel = new Text(" Published Year : ");
-        balLabel.setFont(myFont);
-        balLabel.setWrappingWidth(150);
-        balLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(balLabel, 0, 3);
-
-        pubYear = new TextField();
-        pubYear.setEditable(true);
-        grid.add(pubYear, 1, 3);
 
 
 
@@ -149,7 +126,7 @@ public class SearchBooksView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                processBookData();
+
 
 
             }
@@ -192,8 +169,7 @@ public class SearchBooksView extends View
     public void populateFields()
     {
         bookTitle.setText((String)myModel.getState("bookTitle"));
-        author.setText((String)myModel.getState("author"));
-        pubYear.setText((String)myModel.getState("pubYear"));
+
 
     }
 
@@ -273,9 +249,10 @@ public class SearchBooksView extends View
             props.setProperty("status", "Active");
             myModel.stateChangeRequest("BookData", props);
         }
+        public void processBookSearchData(){
 
-
-
+            string searchQuer
+        }
 
     }
 

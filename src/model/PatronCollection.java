@@ -18,7 +18,7 @@ public class PatronCollection extends EntityBase{
             throw new Exception("UNEXPECTED ERROR: date is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ "WHERE (dateOfBirth > "+date+")";
+        String query = "SELECT * FROM "+ myTableName+ " WHERE (dateOfBirth > "+date+")";
 
         queryHelper(query);
     }
@@ -27,7 +27,7 @@ public class PatronCollection extends EntityBase{
             throw new Exception("UNEXPECTED ERROR: date is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ "WHERE (dateOfBirth < "+date+")";
+        String query = "SELECT * FROM "+ myTableName+ " WHERE (dateOfBirth < "+date+")";
 
         queryHelper(query);
     }
@@ -36,7 +36,7 @@ public class PatronCollection extends EntityBase{
             throw new Exception("UNEXPECTED ERROR: zip is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ "WHERE (zip = "+zip+")";
+        String query = "SELECT * FROM "+ myTableName+ " WHERE (zip = "+zip+")";
 
         queryHelper(query);
     }
@@ -45,7 +45,7 @@ public class PatronCollection extends EntityBase{
             throw new Exception("UNEXPECTED ERROR: name is null");
         }
 
-        String query = "SELECT * FROM "+ myTableName+ "WHERE (name LIKE '%"+name+"%')";
+        String query = "SELECT * FROM "+ myTableName+ " WHERE (name LIKE '%"+name+"%')";
 
         queryHelper(query);
     }

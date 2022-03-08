@@ -126,31 +126,31 @@ public class PatronView extends View
         patronName.setEditable(true);
         grid.add(patronName, 1, 1);
 
-        Text acctTypeLabel = new Text(" Address : ");
-        acctTypeLabel.setFont(myFont);
-        acctTypeLabel.setWrappingWidth(150);
-        acctTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(acctTypeLabel, 0, 2);
+        Text addrLab = new Text(" Address : ");
+        addrLab.setFont(myFont);
+        addrLab.setWrappingWidth(150);
+        addrLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(addrLab, 0, 2);
 
         address = new TextField();
         address.setEditable(true);
         grid.add(address, 1, 2);
 
-        Text balLabel = new Text(" City : ");
-        balLabel.setFont(myFont);
-        balLabel.setWrappingWidth(150);
-        balLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(balLabel, 0, 3);
+        Text citLab = new Text(" City : ");
+        citLab.setFont(myFont);
+        citLab.setWrappingWidth(150);
+        citLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(citLab, 0, 3);
 
         city = new TextField();
         city.setEditable(true);
         grid.add(city, 1, 3);
 
-        Text stateLabel = new Text(" State Code : ");
-        stateLabel.setFont(myFont);
-        stateLabel.setWrappingWidth(150);
-        stateLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(stateLabel, 0, 4);
+        Text statLab = new Text(" State Code : ");
+        statLab.setFont(myFont);
+        statLab.setWrappingWidth(150);
+        statLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(statLab, 0, 4);
 
         stateCode = new TextField();
         stateCode.setEditable(true);
@@ -166,11 +166,11 @@ public class PatronView extends View
         zip.setEditable(true);
         grid.add(zip, 1, 5);
 
-        Text mailLabel = new Text(" Email : ");
-        mailLabel.setFont(myFont);
-        mailLabel.setWrappingWidth(150);
-        mailLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(mailLabel, 0, 6);
+        Text emailLab = new Text(" Email : ");
+        emailLab.setFont(myFont);
+        emailLab.setWrappingWidth(150);
+        emailLab.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(emailLab, 0, 6);
 
         email = new TextField();
         email.setEditable(true);
@@ -311,42 +311,42 @@ public class PatronView extends View
 
 
         if ((nameEntered == null) || (nameEntered.length() == 0)){
-            displayErrorMessage("Please enter a name to be entered.");
+            displayErrorMessage("Name Entered Is Invalid Please enter a valid name.");
         }
         else
         if ((addressEntered == null) || (addressEntered.length() == 0)){
-            displayErrorMessage("Please enter an address to be entered");
+            displayErrorMessage("Address entered Is Invalid Please enter a valid address.");
         }
         else
         if ((cityEntered == null) || (cityEntered.length() == 0)){
-            displayErrorMessage("Please enter a city to be entered");
+            displayErrorMessage("City entered Is Invalid Please enter a valid city.");
         }
         else
         if ((stateEntered == null) || (stateEntered.length() == 0)){
-            displayErrorMessage("Please enter a state to be entered");
+            displayErrorMessage("State entered Is Invalid Please enter a valid state.");
         }
         else
         if ((zipEntered == null) || (zipEntered.length() == 0)){
-            displayErrorMessage("Please enter a zip to be entered");
+            displayErrorMessage("Zipcode entered Is Invalid Please enter a valid zipcode.");
         }
         else
         if ((emailEntered == null) || (emailEntered.length() == 0)){
-            displayErrorMessage("Please enter a email to be entered");
+            displayErrorMessage("Email entered Is Invalid Please enter a valid email.");
         }
         else
         if ((dobEntered == null) || (dobEntered.length() == 0)){
-            displayErrorMessage("Please enter a date of birth to be entered");
+            displayErrorMessage("Enter Patrons Date of Birth in YYYY-MM-DD formate");
         }
 
         else
         {
             SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-            Date d1 = sdformat.parse(dobEntered);
-            Date d2 = sdformat.parse("1920-01-01");
-            Date d3 = sdformat.parse("2004-01-01");
+            Date date1 = sdformat.parse(dobEntered);
+            Date date2 = sdformat.parse("1920-01-01");
+            Date date3 = sdformat.parse("2004-01-01");
 
-            if((d1.compareTo(d2) < 0) || (d1.compareTo(d3) > 0)){
-                displayErrorMessage("Please enter publisher year between 1920-01-01 and 2004-01-01");
+            if((date1.compareTo(date2) < 0) || (date1.compareTo(date3) > 0)){
+                displayErrorMessage("Patron must be born between 1920-01-01 and 2004-01-01 the patron must be 18");
             }
 
 

@@ -63,6 +63,7 @@ public class BookCollectionView extends View{
     //--------------------------------------------------------------------------
     protected void populateFields()
     {
+
         getEntryTableModelValues();
     }
 
@@ -80,7 +81,7 @@ public class BookCollectionView extends View{
             while (entries.hasMoreElements() == true)
             {
                 Book nextBook = (Book)entries.nextElement();
-                System.out.println("Inserting Nexgt Book: " + nextBook);
+                System.out.println("Next book for table: " + nextBook);
                 Vector<String> view = nextBook.getEntryListView();
 
                 // add this list entry to the list
@@ -93,6 +94,8 @@ public class BookCollectionView extends View{
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
+            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -125,10 +128,10 @@ public class BookCollectionView extends View{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text prompt = new Text("Book List");
+        Text prompt = new Text("LIST OF BOOKS");
         prompt.setWrappingWidth(350);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.DARKGREEN);
+        prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
         tableOfBooks = new TableView<BookTableModel>();
@@ -145,7 +148,7 @@ public class BookCollectionView extends View{
                 new PropertyValueFactory<BookTableModel, String>("author"));
 
         TableColumn titleColumn = new TableColumn("Title") ;
-        titleColumn.setMinWidth(100);
+        titleColumn.setMinWidth(200);
         titleColumn.setCellValueFactory(
                 new PropertyValueFactory<BookTableModel, String>("title"));
 
@@ -159,8 +162,11 @@ public class BookCollectionView extends View{
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<BookTableModel, String>("status"));
 
-        tableOfBooks.getColumns().addAll(bookIdColumn,
-                authorColumn, titleColumn, publicationYearColumn, statusColumn);
+       /* tableOfBooks.getColumns().addAll(bookIdColumn,
+                authorColumn, titleColumn, publicationYearColumn, statusColumn); */
+
+        tableOfBooks.getColumns().addAll(
+                authorColumn, titleColumn, publicationYearColumn);
 
         tableOfBooks.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -174,6 +180,8 @@ public class BookCollectionView extends View{
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(115, 150);
         scrollPane.setContent(tableOfBooks);
+
+
 
         //TODO need to look into switching this
         doneButton = new Button("Back");

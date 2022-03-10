@@ -78,7 +78,7 @@ public class PatronCollectionView extends View {
             //System.out.println("Patron Search list has this many elements: " + entryList.size());
             Enumeration entries = entryList.elements();
 
-            while (entries.hasMoreElements() == true)
+            while (entries.hasMoreElements())
             {
                // System.out.println("Inside has more elements");
                 Patron nextPatron = (Patron)entries.nextElement();
@@ -147,9 +147,9 @@ public class PatronCollectionView extends View {
         nameColumn.setCellValueFactory(
                 new PropertyValueFactory<PatronTableModel, String>("name"));
 
-        TableColumn titleColumn = new TableColumn("Address") ;
-        titleColumn.setMinWidth(100);
-        titleColumn.setCellValueFactory(
+        TableColumn addrColumn = new TableColumn("Address") ;
+        addrColumn.setMinWidth(100);
+        addrColumn.setCellValueFactory(
                 new PropertyValueFactory<PatronTableModel, String>("address"));
 
         TableColumn publicationYearColumn = new TableColumn("City") ;
@@ -183,10 +183,10 @@ public class PatronCollectionView extends View {
                 new PropertyValueFactory<PatronTableModel, String>("status"));
 
         /*tableOfPatrons.getColumns().addAll(patronIdColumn,
-                nameColumn, titleColumn, publicationYearColumn, stateColumn, zipColumn, emailColumn, dateOfBirthColumn, statusColumn);*/
+                nameColumn, addrColumn, publicationYearColumn, stateColumn, zipColumn, emailColumn, dateOfBirthColumn, statusColumn);*/
 
         tableOfPatrons.getColumns().addAll(
-                nameColumn, titleColumn, publicationYearColumn, stateColumn, zipColumn, emailColumn, dateOfBirthColumn);
+                nameColumn, addrColumn, publicationYearColumn, stateColumn, dateOfBirthColumn);
 
         tableOfPatrons.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

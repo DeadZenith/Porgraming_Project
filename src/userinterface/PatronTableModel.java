@@ -15,29 +15,28 @@ public class PatronTableModel {
     private final SimpleStringProperty dateOfBirth;
     private final SimpleStringProperty status;
 
-
     //----------------------------------------------------------------------------
-    public PatronTableModel(Vector<String> patronData)
+    public PatronTableModel(Vector<String> accountData)
     {
-        patronId =  new SimpleStringProperty(patronData.elementAt(0));
-        name =  new SimpleStringProperty(patronData.elementAt(1));
-        address =  new SimpleStringProperty(patronData.elementAt(2));
-        city = new SimpleStringProperty(patronData.elementAt(3));
-        stateCode =  new SimpleStringProperty(patronData.elementAt(4));
-        zip = new SimpleStringProperty(patronData.elementAt(5));
-        email = new SimpleStringProperty(patronData.elementAt(6));
-        dateOfBirth = new SimpleStringProperty(patronData.elementAt(7));
-        status = new SimpleStringProperty(patronData.elementAt(8));
+        patronId =  new SimpleStringProperty(accountData.elementAt(0));
+        name =  new SimpleStringProperty(accountData.elementAt(1));
+        address =  new SimpleStringProperty(accountData.elementAt(2));
+        city =  new SimpleStringProperty(accountData.elementAt(3));
+        stateCode = new SimpleStringProperty(accountData.elementAt(4));
+        zip = new SimpleStringProperty(accountData.elementAt(5));
+        email = new SimpleStringProperty(accountData.elementAt(6));
+        dateOfBirth = new SimpleStringProperty(accountData.elementAt(7));
+        status = new SimpleStringProperty(accountData.elementAt(8));
 
     }
 
     //----------------------------------------------------------------------------
-    public String getPatronId() {
+    public String getBookId() {
         return patronId.get();
     }
 
     //----------------------------------------------------------------------------
-    public void setPatronId(String number) { patronId.set(number); }
+    public void setBookId(String number) { patronId.set(number); }
 
     //----------------------------------------------------------------------------
     public String getName() {
@@ -45,8 +44,8 @@ public class PatronTableModel {
     }
 
     //----------------------------------------------------------------------------
-    public void setName(String nam) {
-        name.set(nam);
+    public void setName(String auth) {
+        name.set(auth);
     }
 
     //----------------------------------------------------------------------------
@@ -55,37 +54,54 @@ public class PatronTableModel {
     }
 
     //----------------------------------------------------------------------------
-    public void setAddress(String adr) {
-        address.set(adr);
+    public void setAddress(String ti) {
+        address.set(ti);
+    }
+
+    //----------------------------------------------------------------------------
+    public String getCity() { return city.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setCity(String pubyear)
+    {
+        city.set(pubyear);
+    }
+    //----------------------------------------------------------------------------
+    public String getStateCode() { return stateCode.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setStateCode(String stat)
+    {
+        stateCode.set(stat);
     }
 
     //----------------------------------------------------------------------------
     public String getZip() { return zip.get(); }
 
     //----------------------------------------------------------------------------
-    public void setZip(String zp)
+    public void setZip(String stat)
     {
-        zip.set(zp);
+        zip.set(stat);
     }
+
     //----------------------------------------------------------------------------
     public String getEmail() { return email.get(); }
 
     //----------------------------------------------------------------------------
-    public void setEmail(String eam)
+    public void setEmail(String stat)
     {
-        email.set(eam);
+        email.set(stat);
     }
     //----------------------------------------------------------------------------
-
-    public String getDOB() { return dateOfBirth.get(); }
+    public String getDateOfBirth() { return dateOfBirth.get(); }
 
     //----------------------------------------------------------------------------
-    public void setDOB(String dob)
+    public void setDateOfBirth(String stat)
     {
-        stateCode.set(dob);
+        dateOfBirth.set(stat);
     }
-    //----------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------
     public String getStatus() { return status.get(); }
 
     //----------------------------------------------------------------------------
@@ -94,3 +110,4 @@ public class PatronTableModel {
         status.set(stat);
     }
 }
+

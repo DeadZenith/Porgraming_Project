@@ -335,7 +335,7 @@ public class PatronView extends View
         }
         else
         if ((dobEntered == null) || (dobEntered.length() == 0)){
-            displayErrorMessage("Enter Patrons Date of Birth in YYYY-MM-DD formate");
+            displayErrorMessage("Enter Patrons Date of Birth in YYYY-MM-DD ordering");
         }
 
         else

@@ -99,10 +99,10 @@ public class Patron extends EntityBase {
     public void updateStateInDatabase(){
         try
         {
-            if(persistentState.getProperty("patronID") != null)
+            if(persistentState.getProperty("patronId") != null)
             {
                 Properties whereClause = new Properties();
-                whereClause.setProperty("patronID",
+                whereClause.setProperty("patronId",
                         persistentState.getProperty("patronID"));
                 updatePersistentState(mySchema, persistentState, whereClause);
                 updateStatusMessage = "Patron data for Patron Id : " + persistentState.getProperty("patronID") + " updated successfully in database!";
@@ -147,8 +147,8 @@ public class Patron extends EntityBase {
 
     public static int compare(Patron a, Patron b)
     {
-        String aNum = (String)a.getState("patronID");
-        String bNum = (String)b.getState("patronID");
+        String aNum = (String)a.getState("patronId");
+        String bNum = (String)b.getState("patronId");
 
         return aNum.compareTo(bNum);
     }

@@ -1,8 +1,6 @@
-// specify the package
 package userinterface;
 
-// system imports
-
+import impresario.IModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -18,24 +16,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-
+import model.BookCollection;
 
 import java.util.Properties;
 
-
-// project imports
-import impresario.IModel;
-
-/** The class containing the Account View  for the ATM application */
-//==============================================================
-public class SearchBooksView extends View
-{
-
+public class SearchBooksView extends View{
     // GUI components
-    protected TextField bookTitle;
-
-
-
+    protected TextField bookSearch;
 
     protected Button submitButton;
     protected Button doneButton;
@@ -47,7 +34,7 @@ public class SearchBooksView extends View
     //----------------------------------------------------------
     public SearchBooksView(IModel book)
     {
-        super(book, "BookView");
+        super(book, "SearchBooksView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -68,7 +55,6 @@ public class SearchBooksView extends View
 
         myModel.subscribe("TransactionError", this);
     }
-
 
     // Create the title container
     //-------------------------------------------------------------
@@ -105,18 +91,16 @@ public class SearchBooksView extends View
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
-        Text accNumLabel = new Text(" Book: ");
+        Text accNumLabel = new Text(" Book Title : ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         accNumLabel.setFont(myFont);
         accNumLabel.setWrappingWidth(150);
         accNumLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(accNumLabel, 0, 1);
 
-        bookTitle = new TextField();
-        bookTitle.setEditable(true);
-        grid.add(bookTitle, 1, 1);
-
-
+        bookSearch = new TextField();
+        bookSearch.setEditable(true);
+        grid.add(bookSearch, 1, 1);
 
 
         submitButton = new Button("Submit");
@@ -125,7 +109,9 @@ public class SearchBooksView extends View
 
             @Override
             public void handle(ActionEvent e) {
-                clearErrorMessage();
+                //clearErrorMessage();
+                processBookSearchData();
+
 
 
 
@@ -155,21 +141,10 @@ public class SearchBooksView extends View
         return vbox;
     }
 
-
-    // Create the status log field
-    //-------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
-        statusLog = new MessageView(initialMessage);
-
-        return statusLog;
-    }
-
     //-------------------------------------------------------------
     public void populateFields()
     {
-        bookTitle.setText((String)myModel.getState("bookTitle"));
-
+        bookSearch.setText((String)myModel.getState("bookTitle"));
 
     }
 
@@ -189,6 +164,15 @@ public class SearchBooksView extends View
             else
                 displayMessage(val);
         }
+    }
+
+    // Create the status log field
+    //-------------------------------------------------------------
+    protected MessageView createStatusLog(String initialMessage)
+    {
+        statusLog = new MessageView(initialMessage);
+
+        return statusLog;
     }
 
     /**
@@ -219,46 +203,12 @@ public class SearchBooksView extends View
     }
 
     //---------------------------------------------------------
-    public void processBookData() {
-        // DEBUG: System.out.println("DepositAmountView.processAction()");
-
-        clearErrorMessage();
-
-        String bookTitleEntered = bookTitle.getText();
-        String authorEntered = author.getText();
-        String pubYearEntered = pubYear.getText();
-
-
-        if ((bookTitleEntered == null) || (bookTitleEntered.length() == 0)){
-            displayErrorMessage("Please enter a book title to be entered.");
-        }
-        else
-        if ((authorEntered == null) || (authorEntered.length() == 0)){
-            displayErrorMessage("Please enter a author to be entered");
-        }
-        else
-        {
-            double pYear = Double.parseDouble(pubYearEntered);
-            if((pYear < 1800) || (pYear > 2022)){
-                displayErrorMessage("Please enter publisher year between 1800 and 2022");
-            }
-            Properties props = new Properties();
-            props.setProperty("bookTitle", bookTitleEntered);
-            props.setProperty("author", authorEntered);
-            props.setProperty("pubYear", pubYearEntered);
-            props.setProperty("status", "Active");
-            myModel.stateChangeRequest("BookData", props);
-        }
-        public void processBookSearchData(){
-
-            string searchQuer
-        }
+    public void processBookSearchData() {
+        String input = bookSearch.getText();
+        Properties p = new Properties();
+        p.setProperty("bookTitle", input);
+        myModel.stateChangeRequest("FindBooks", p);
+        System.out.println(p);
 
     }
-
-
-
-
-
-
 }

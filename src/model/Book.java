@@ -101,20 +101,20 @@ public class Book extends EntityBase{
     {
         try
         {
-            if (persistentState.getProperty("bookID") != null)
+            if (persistentState.getProperty("bookId") != null)
             {
                 Properties whereClause = new Properties();
-                whereClause.setProperty("bookID",
-                        persistentState.getProperty("bookID"));
+                whereClause.setProperty("bookId",
+                        persistentState.getProperty("bookId"));
                 updatePersistentState(mySchema, persistentState, whereClause);
-                updateStatusMessage = "Book data for bookID number : " + persistentState.getProperty("bookID") + " updated successfully in database!";
+                updateStatusMessage = "Book data for bookID number : " + persistentState.getProperty("bookId") + " updated successfully in database!";
             }
             else
             {
                 Integer bookID =
                         insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("bookID", "" + bookID.intValue());
-                updateStatusMessage = "Book data for new book : " +  persistentState.getProperty("bookID")
+                persistentState.setProperty("bookId", "" + bookID.intValue());
+                updateStatusMessage = "Book data for new book : " +  persistentState.getProperty("bookId")
                         + " installed successfully in database!";
             }
         }
@@ -149,8 +149,8 @@ public class Book extends EntityBase{
 
     public static int compare(Book a, Book b)
     {
-        String aNum = (String)a.getState("bookID");
-        String bNum = (String)b.getState("bookID");
+        String aNum = (String)a.getState("bookId");
+        String bNum = (String)b.getState("bookId");
 
         return aNum.compareTo(bNum);
     }

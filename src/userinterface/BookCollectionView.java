@@ -19,8 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-//import model.Account;
-//import model.AccountCollection;
 import model.Book;
 import model.BookCollection;
 
@@ -166,7 +164,7 @@ public class BookCollectionView extends View{
                 authorColumn, titleColumn, publicationYearColumn, statusColumn); */
 
         tableOfBooks.getColumns().addAll(
-                authorColumn, titleColumn, publicationYearColumn);
+                publicationYearColumn, authorColumn, titleColumn, statusColumn);
 
         tableOfBooks.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -224,9 +222,11 @@ public class BookCollectionView extends View{
     /*protected void processAccountSelected()
     {
         BookTableModel selectedItem = tableOfBooks.getSelectionModel().getSelectedItem();
+
         if(selectedItem != null)
         {
             String selectedAcctNumber = selectedItem.getAccountNumber();
+
             myModel.stateChangeRequest("AccountSelected", selectedAcctNumber);
         }
     }*/

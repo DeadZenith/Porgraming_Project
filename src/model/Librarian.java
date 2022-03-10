@@ -154,15 +154,15 @@ public class Librarian implements IView, IModel
         }
         else if(key.equals("FindBooks")){
             Properties p = (Properties)value;
-            String titl = p.getProperty("bookTitle");
+            String tit = p.getProperty("bookTitle");
             myBooks = new BookCollection();
-            myBooks.findBooksWithTitleLike(titl);
+            myBooks.findBooksWithTitleLike(tit);
             createAndShowBookCollectionView();
         }
         else if(key.equals("PatronCollection")){
             createAndShowPatronCollectionView();
         }
-        else if(key.equals("FindPatrons")){
+        else if(key.equals("FindPatronz")){
             Properties p = (Properties)value;
             String zipCode = p.getProperty("zip");
             myPatrons = new PatronCollection();
@@ -170,6 +170,7 @@ public class Librarian implements IView, IModel
                 myPatrons.findPatronsAtZipCode(zipCode);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("It's trapped here");
             }
             createAndShowSearchPatronsView();
 

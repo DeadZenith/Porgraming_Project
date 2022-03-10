@@ -23,18 +23,18 @@ public class ViewFactory {
 		{
 			return new BookCollectionView(model);
 		}
-//		else if(viewName.equals("PatronCollectionView") == true)
-//		{
-//			return new PatronCollectionView(model);
-//		}
+		else if(viewName.equals("PatronCollectionView") == true)
+		{
+			return new PatronCollectionView(model);
+		}
 		else if(viewName.equals("SearchBooksView") == true)
 		{
 			return new SearchBooksView(model);
 		}
-//		else if(viewName.equals("SearchPatronsView") == true)
-//		{
-//			return new SearchPatronsView(model);
-//		}
+		else if(viewName.equals("SearchPatronsView") == true)
+		{
+			return new SearchPatronsView(model);
+		}
 		else if(viewName.equals("DepositTransactionView") == true)
 		{
 			return new DepositTransactionView(model);

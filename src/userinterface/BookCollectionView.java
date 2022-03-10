@@ -79,7 +79,7 @@ public class BookCollectionView extends View{
             while (entries.hasMoreElements() == true)
             {
                 Book nextBook = (Book)entries.nextElement();
-                System.out.println("Next book for table: " + nextBook);
+                //System.out.println("Next book: " + nextBook);
                 Vector<String> view = nextBook.getEntryListView();
 
                 // add this list entry to the list
@@ -164,7 +164,7 @@ public class BookCollectionView extends View{
                 authorColumn, titleColumn, publicationYearColumn, statusColumn); */
 
         tableOfBooks.getColumns().addAll(
-                publicationYearColumn, authorColumn, titleColumn, statusColumn);
+                authorColumn, titleColumn, publicationYearColumn);
 
         tableOfBooks.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

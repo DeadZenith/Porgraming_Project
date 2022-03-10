@@ -5,29 +5,29 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.Vector;
 
 public class BookTableModel {
-    private final SimpleStringProperty bookId;
+    //private final SimpleStringProperty bookId;
     private final SimpleStringProperty author;
     private final SimpleStringProperty title;
     private final SimpleStringProperty publicationYear;
-    //private final SimpleStringProperty status;
+    private final SimpleStringProperty status;
 
     //----------------------------------------------------------------------------
     public BookTableModel(Vector<String> bookData)
     {
-        bookId =  new SimpleStringProperty(bookData.elementAt(0));
-        author =  new SimpleStringProperty(bookData.elementAt(2));
-        title =  new SimpleStringProperty(bookData.elementAt(1));
-        publicationYear =  new SimpleStringProperty(bookData.elementAt(3));
-        //status = new SimpleStringProperty(bookData.elementAt(4));
+        //bookId =  new SimpleStringProperty(bookData.elementAt(-1));
+        title =  new SimpleStringProperty(bookData.elementAt(0));
+        author =  new SimpleStringProperty(bookData.elementAt(1));
+        publicationYear =  new SimpleStringProperty(bookData.elementAt(2));
+        status = new SimpleStringProperty(bookData.elementAt(3));
     }
 
     //----------------------------------------------------------------------------
-    public String getBookId() {
-        return bookId.get();
-    }
+//    public String getBookId() {
+//        return bookId.get();
+//    }
 
     //----------------------------------------------------------------------------
-    public void setBookId(String number) { bookId.set(number); }
+   // public void setBookId(String number) { bookId.set(number); }
 
     //----------------------------------------------------------------------------
     public String getAuthor() {
@@ -61,8 +61,8 @@ public class BookTableModel {
     //public String getStatus() { return status.get(); }
 
     //----------------------------------------------------------------------------
-//    public void setStatus(String stat)
-//    {
-//        status.set(stat);
-//    }
+    public void setStatus(String stat)
+    {
+        status.set(stat);
+    }
 }

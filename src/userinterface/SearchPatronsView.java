@@ -110,7 +110,6 @@ public class SearchPatronsView extends View{
             @Override
             public void handle(ActionEvent e) {
                 //clearErrorMessage();
-                System.out.println("I touched Patron searchview button");
                 processPatronSearchData();
 
             }
@@ -206,6 +205,5 @@ public class SearchPatronsView extends View{
         Properties p = new Properties();
         p.setProperty("zip", input);
         myModel.stateChangeRequest("FindPatrons", p);
-        System.out.println("I touched Patron search viiew");
     }
 }

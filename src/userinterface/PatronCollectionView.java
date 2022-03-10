@@ -31,7 +31,7 @@ public class PatronCollectionView extends View {
     // GUI components
     protected TableView<PatronTableModel> tableOfPatrons;
     protected Button doneButton;
-    //System.out.println("I touched Patron collection viiew");
+
 
     // For showing error message
     protected MessageView statusLog;
@@ -39,7 +39,7 @@ public class PatronCollectionView extends View {
     public PatronCollectionView(IModel patron)
     {
         super(patron, "PatronCollectionView");
-        System.out.println("I touched Patron collection viiew");
+
         // create a container for showing the contents
         VBox container = new VBox(10);
         container.setPadding(new Insets(15, 5, 5, 5));
@@ -73,16 +73,16 @@ public class PatronCollectionView extends View {
         try
         {
             PatronCollection patronCollection = (PatronCollection)myModel.getState("PatronList");
-
+            System.out.println(patronCollection.toString());
             Vector entryList = (Vector)patronCollection.getState("Patrons");
-            System.out.println("patron coll size: " + entryList.size());
+            //System.out.println("Patron Search list has this many elements: " + entryList.size());
             Enumeration entries = entryList.elements();
 
             while (entries.hasMoreElements() == true)
             {
-                System.out.println("Inside has more elements");
+               // System.out.println("Inside has more elements");
                 Patron nextPatron = (Patron)entries.nextElement();
-                System.out.println("Next patron for table" + nextPatron);
+               // System.out.println("Next patron for table" + nextPatron);
                 Vector<String> view = nextPatron.getEntryListView();
 
                 // add this list entry to the list

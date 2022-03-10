@@ -5,38 +5,38 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.Vector;
 
 public class PatronTableModel {
-    private final SimpleStringProperty patronId;
+    //private final SimpleStringProperty patronId;
     private final SimpleStringProperty name;
     private final SimpleStringProperty address;
     private final SimpleStringProperty city;
-    private final SimpleStringProperty stateCode;
+  //  private final SimpleStringProperty stateCode;
     private final SimpleStringProperty zip;
-    private final SimpleStringProperty email;
+  //  private final SimpleStringProperty email;
     private final SimpleStringProperty dateOfBirth;
-    private final SimpleStringProperty status;
+    //private final SimpleStringProperty status;
 
     //----------------------------------------------------------------------------
-    public PatronTableModel(Vector<String> accountData)
+    public PatronTableModel(Vector<String> patronInfo)
     {
-        patronId =  new SimpleStringProperty(accountData.elementAt(0));
-        name =  new SimpleStringProperty(accountData.elementAt(1));
-        address =  new SimpleStringProperty(accountData.elementAt(2));
-        city =  new SimpleStringProperty(accountData.elementAt(3));
-        stateCode = new SimpleStringProperty(accountData.elementAt(4));
-        zip = new SimpleStringProperty(accountData.elementAt(5));
-        email = new SimpleStringProperty(accountData.elementAt(6));
-        dateOfBirth = new SimpleStringProperty(accountData.elementAt(7));
-        status = new SimpleStringProperty(accountData.elementAt(8));
+       // patronId =  new SimpleStringProperty(patronInfo.elementAt(0));
+        name =  new SimpleStringProperty(patronInfo.elementAt(0));
+        address =  new SimpleStringProperty(patronInfo.elementAt(1));
+        city =  new SimpleStringProperty(patronInfo.elementAt(2));
+//        stateCode = new SimpleStringProperty(patronInfo.elementAt(4));
+        zip = new SimpleStringProperty(patronInfo.elementAt(3));
+      //  email = new SimpleStringProperty(patronInfo.elementAt(6));
+        dateOfBirth = new SimpleStringProperty(patronInfo.elementAt(4));
+        //status = new SimpleStringProperty(patronInfo.elementAt()5);
 
     }
 
     //----------------------------------------------------------------------------
-    public String getBookId() {
-        return patronId.get();
-    }
-
-    //----------------------------------------------------------------------------
-    public void setBookId(String number) { patronId.set(number); }
+//    public String getBookId() {
+//        return patronId.get();
+//    }
+//
+//    //----------------------------------------------------------------------------
+//    public void setBookId(String number) { patronId.set(number); }
 
     //----------------------------------------------------------------------------
     public String getName() {
@@ -67,13 +67,13 @@ public class PatronTableModel {
         city.set(pubyear);
     }
     //----------------------------------------------------------------------------
-    public String getStateCode() { return stateCode.get(); }
-
-    //----------------------------------------------------------------------------
-    public void setStateCode(String stat)
-    {
-        stateCode.set(stat);
-    }
+//    public String getStateCode() { return stateCode.get(); }
+//
+//    //----------------------------------------------------------------------------
+//    public void setStateCode(String stat)
+//    {
+//        stateCode.set(stat);
+//    }
 
     //----------------------------------------------------------------------------
     public String getZip() { return zip.get(); }
@@ -85,14 +85,14 @@ public class PatronTableModel {
     }
 
     //----------------------------------------------------------------------------
-    public String getEmail() { return email.get(); }
-
-    //----------------------------------------------------------------------------
-    public void setEmail(String stat)
-    {
-        email.set(stat);
-    }
-    //----------------------------------------------------------------------------
+//    public String getEmail() { return email.get(); }
+//
+//    //----------------------------------------------------------------------------
+//    public void setEmail(String stat)
+//    {
+//        email.set(stat);
+//    }
+//    //----------------------------------------------------------------------------
     public String getDateOfBirth() { return dateOfBirth.get(); }
 
     //----------------------------------------------------------------------------
@@ -102,12 +102,12 @@ public class PatronTableModel {
     }
 
     //----------------------------------------------------------------------------
-    public String getStatus() { return status.get(); }
-
-    //----------------------------------------------------------------------------
-    public void setStatus(String stat)
-    {
-        status.set(stat);
-    }
+//    public String getStatus() { return status.get(); }
+//
+//    //----------------------------------------------------------------------------
+//    public void setStatus(String stat)
+//    {
+//        status.set(stat);
+//    }
 }
 

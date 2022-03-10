@@ -162,7 +162,7 @@ public class Librarian implements IView, IModel
         else if(key.equals("PatronCollection")){
             createAndShowPatronCollectionView();
         }
-        else if(key.equals("FindPatronz")){
+        else if(key.equals("FindPatrons")){
             Properties p = (Properties)value;
             String zipCode = p.getProperty("zip");
             myPatrons = new PatronCollection();
@@ -172,7 +172,7 @@ public class Librarian implements IView, IModel
                 e.printStackTrace();
                 System.out.println("It's trapped here");
             }
-            createAndShowSearchPatronsView();
+            createAndShowPatronCollectionView();
 
         }
 
@@ -208,6 +208,7 @@ public class Librarian implements IView, IModel
         {
             Transaction trans = TransactionFactory.createTransaction(
                     transactionType, myAccountHolder);
+
             trans.subscribe("CancelTransaction", this);
             trans.stateChangeRequest("DoYourJob", "");
         }
@@ -219,10 +220,12 @@ public class Librarian implements IView, IModel
                     Event.ERROR);
         }
     }
+
     //----------------------------------------------------------
     private void createAndShowTransactionChoiceView()
     {
         Scene currentScene = (Scene)myViews.get("TransactionChoiceView");
+
         if (currentScene == null)
         {
             // create our initial view
@@ -230,8 +233,11 @@ public class Librarian implements IView, IModel
             currentScene = new Scene(newView);
             myViews.put("TransactionChoiceView", currentScene);
         }
+
+
         // make the view visible by installing it into the frame
         swapToView(currentScene);
+
     }*/
 
     //------------------------------------------------------------
@@ -377,3 +383,4 @@ public class Librarian implements IView, IModel
 
 
 }
+

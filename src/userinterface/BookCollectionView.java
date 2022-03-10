@@ -76,7 +76,7 @@ public class BookCollectionView extends View{
             Vector entryList = (Vector)bookCollection.getState("Books");
             Enumeration entries = entryList.elements();
 
-            while (entries.hasMoreElements() == true)
+            while (entries.hasMoreElements())
             {
                 Book nextBook = (Book)entries.nextElement();
                 //System.out.println("Next book: " + nextBook);
@@ -90,7 +90,7 @@ public class BookCollectionView extends View{
 
             tableOfBooks.setItems(tableData);
         }
-        catch (Exception e) {//SQLException e) {
+        catch (Exception e) {//SQLException e {
             // Need to handle this exception
             System.out.println(e);
             e.printStackTrace();
@@ -160,8 +160,6 @@ public class BookCollectionView extends View{
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<BookTableModel, String>("status"));
 
-       /* tableOfBooks.getColumns().addAll(bookIdColumn,
-                authorColumn, titleColumn, publicationYearColumn, statusColumn); */
 
         tableOfBooks.getColumns().addAll(
                 authorColumn, titleColumn, publicationYearColumn);
@@ -190,7 +188,7 @@ public class BookCollectionView extends View{
                 /**
                  * Process the Cancel button.
                  * The ultimate result of this action is that the transaction will tell the teller to
-                 * to switch to the transaction choice view. BUT THAT IS NOT THIS VIEW'S CONCERN.
+                 * switch to the transaction choice view. BUT THAT IS NOT THIS VIEW'S CONCERN.
                  * It simply tells its model (controller) that the transaction was canceled, and leaves it
                  * to the model to decide to tell the teller to do the switch back.
                  */
